@@ -1,6 +1,6 @@
 # ECG signal preprocessing
 
-In the present code an ECG signal is preprocessed through: <br/>
+In the present code, an ECG signal is preprocessed through: <br/>
 - Recording spikes (artifacts of great amplitude) removal.<br/>
 - Low-pass filtering.<br/>
 - Powerline interference filtering.<br/>
