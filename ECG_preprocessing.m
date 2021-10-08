@@ -19,6 +19,11 @@
 
 clear all;
 
+%% Parameters
+high_pass_cutoff = 0.05; % Hz
+low_pass_cutoff = 150; % Hz
+notch_f0 = 50; % Hz
+
 %% Load data
 
 load ecgConditioningExample.mat
@@ -62,30 +67,30 @@ fprintf('\n')
 %% Low pass filter
 % Uncomment to see low pass filtered data
 
-LP_filtered_signal = filter_signal(ecg_,fs,150,'low');
+LP_filtered_signal = filter_signal(ecg_,fs,low_pass_cutoff,'low');
 plot_filtered_signal(time,ecg_,LP_filtered_signal,'Low pass filtered')
 
 
 %% Notch filter to remove powerline interference
 % Uncomment to see signal with removed powerline interference
 
-notch_filtered_signal=notch_filter(ecg_,fs,50,1);
+notch_filtered_signal=notch_filter(ecg_,fs,notch_f0,1);
 plot_filtered_signal(time,ecg_,notch_filtered_signal,'Powerline interference filtered')
 
 
 %% High pass filter to remove baseline wander and offset
 % Uncomment to see signal with removed powerline interference
 
-HP_filtered_signal = filter_signal(ecg_,fs,0.667,'high');
+HP_filtered_signal = filter_signal(ecg_,fs,high_pass_cutoff,'high');
 plot_filtered_signal(time,ecg_,HP_filtered_signal,'High pass filtered')
 
 
 %% Full preprocessing (low pass + notch + high pass filters)
 % Uncomment to see signal fully preprocessed
 
-filtered_signal = filter_signal(ecg_,fs,150,'low');
-filtered_signal=notch_filter(filtered_signal,fs,50,1);
-filtered_signal = filter_signal(filtered_signal,fs,0.667,'high');
+filtered_signal = filter_signal(ecg_,fs,low_pass_cutoff,'low');
+filtered_signal=notch_filter(filtered_signal,fs,notch_f0,1);
+filtered_signal = filter_signal(filtered_signal,fs,high_pass_cutoff,'high');
 plot_filtered_signal(time,ecg_,filtered_signal,'Preprocessed')
 
 % Plot filtered signal of individual channels and check whether DC offset has been removed
